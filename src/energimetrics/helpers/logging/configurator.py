@@ -19,5 +19,5 @@ class LoggingConfigurator:
         """Replace existing handlers with the standard stderr sink."""
         logger.remove()
         logger.add(
-            sys.stderr, level=self._config.level, format=LOG_FORMAT, colorize=False
+            sys.stderr, level=self._config.level, format=LOG_FORMAT, colorize=True
         )
