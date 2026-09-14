@@ -3,6 +3,7 @@
 import re
 import sys
 from collections.abc import Iterator
+from datetime import UTC, datetime
 
 import pytest
 from loguru import logger
@@ -68,18 +69,25 @@ def test_configure_replaces_handlers_and_writes_standard_stderr(
     old_messages: list[str] = []
     logger.add(lambda message: old_messages.append(str(message)))
 
+    before = datetime.now(UTC)
     result = LoggingConfigurator(LoggingConfig()).configure()
     logger.info("Starting application")
+    after = datetime.now(UTC)
 
     captured = capsys.readouterr()
     assert result is None
     assert old_messages == []
     assert captured.out == ""
-    assert re.fullmatch(
-        r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} \| INFO     \| "
-        r"test_logging \| Starting application\n",
+    match = re.fullmatch(
+        r"\x1b\[32m(?P<timestamp>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)\x1b\[0m \| "
+        r"\x1b\[1mINFO    \x1b\[0m \| "
+        r"\x1b\[36mtest_logging\x1b\[0m \| "
+        r"\x1b\[1mStarting application\x1b\[0m\n",
         captured.err,
     )
+    assert match is not None
+    timestamp = datetime.fromisoformat(match.group("timestamp"))
+    assert before.replace(microsecond=0) <= timestamp <= after.replace(microsecond=0)
 
 
 def test_configured_level_filters_messages(

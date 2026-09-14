@@ -42,3 +42,5 @@ logger.info("Starting application")
 ```
 
 `LoggingConfigurator` configures the global Loguru logger. Applications and Energimetrics helpers, including config and MQTT, continue to log with `from loguru import logger`; their messages share the configured level and format after `configure()` runs. Config-loader messages emitted before then may use Loguru's initial configuration. This is expected in 0.1.0.
+
+Configured log timestamps use UTC in ISO 8601 format, for example `2026-09-14T20:53:24Z`.

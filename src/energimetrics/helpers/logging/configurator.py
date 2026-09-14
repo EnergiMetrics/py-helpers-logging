@@ -6,7 +6,12 @@ from loguru import logger
 
 from energimetrics.helpers.logging.config import LoggingConfig
 
-LOG_FORMAT = "{time:YYYY-MM-DD HH:mm:ss} | {level:<8} | {name} | {message}"
+LOG_FORMAT = (
+    "<green>{time:YYYY-MM-DDTHH:mm:ss[Z]!UTC}</green> | "
+    "<level>{level:<8}</level> | "
+    "<cyan>{name}</cyan> | "
+    "<level>{message}</level>"
+)
 
 
 class LoggingConfigurator:
