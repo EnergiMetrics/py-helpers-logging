@@ -3,6 +3,7 @@ name = "energimetrics.helpers.logging"
 version = "0.1.0"
 description = "A small class-based Loguru configuration helper for Energimetrics Python applications"
 readme = "README.md"
+license = "Apache-2.0"
 requires-python = ">=3.14"
 dependencies = [
     "loguru>=0.7.3",
